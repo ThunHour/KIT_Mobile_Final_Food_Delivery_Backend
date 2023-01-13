@@ -1,0 +1,24 @@
+version: "3.1"
+
+services:
+  prisma-studio:
+    container_name: prisma-food-delivery
+    image: timothyjmiller/prisma-studio:latest
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - 5555:5555
+  db:
+    image: postgres:14.3-alpine
+    container_name: postgres-food-delivery
+    environment:
+      POSTGRES_USER: foodDelivery
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: foodDelivery
+    expose:
+      - "5434"
+    ports:
+      - "5434:5434"
+
+    command: -p 5434
