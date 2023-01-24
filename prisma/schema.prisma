@@ -9,3 +9,109 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL_PRISMA")
 }
+
+model User {
+  id           String               @id @default(uuid())
+  name         String
+  gmail        String               @unique
+  phoneNumber  String
+  password     String
+  role         Role                 @default(USER)
+  restaurant   Restaurant?
+  history      OrderTable[]
+  favorite     FavoriteRestaurant[]
+  HistoryOrder HistoryOrder[]
+}
+
+model FavoriteRestaurant {
+  id        String      @id @default(uuid())
+  User      User?       @relation(fields: [userId], references: [id])
+  userId    String?
+  resturant Restaurant?
+}
+
+model Restaurant {
+  id                   String               @id @default(uuid())
+  User                 User?                @relation(fields: [userId], references: [id])
+  userId               String?              @unique
+  name                 String
+  location             String
+  isPromotion          Boolean
+  restaurantCategory   RestaurantCategory[]
+  Promotion            Promotion?
+  favoriteRestaurant   FavoriteRestaurant?  @relation(fields: [favoriteRestaurantId], references: [id])
+  favoriteRestaurantId String?              @unique
+}
+
+model Promotion {
+  id           String      @id @default(uuid())
+  restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
+  Food         Food?       @relation(fields: [foodId], references: [id])
+  foodId       String?     @unique
+  value        Int
+  restaurantId String?     @unique
+}
+
+model Food {
+  id              String     @id @default(uuid())
+  name            String
+  cookingDuration String
+  price           Float
+  Image           Image?
+  option          Option[]
+  order           Order?     @relation(fields: [orderId], references: [id])
+  Promotion       Promotion?
+  orderId         String?    @unique
+}
+
+model Option {
+  id     String  @id @default(uuid())
+  Food   Food?   @relation(fields: [foodId], references: [id])
+  foodId String?
+  size   String
+}
+
+model RestaurantCategory {
+  id           String       @id @default(uuid())
+  categoryName String       @unique
+  Restaurant   Restaurant[]
+}
+
+model OrderTable {
+  id      String      @id @default(uuid())
+  Order   Order[]
+  orderAt DateTime    @default(now())
+  user    User        @relation(fields: [userId], references: [id])
+  userId  String
+}
+
+model HistoryOrder {
+  id      String      @id @default(uuid())
+  Order   Order[] 
+  orderAt DateTime    @default(now())
+  user    User        @relation(fields: [userId], references: [id])
+  userId  String
+}
+
+model Order {
+  id             String        @id @default(uuid())
+  orderTable     OrderTable    @relation(fields: [orderTableId], references: [id])
+  amount         Int
+  Food           Food?
+  orderTableId   String
+  HistoryOrder   HistoryOrder? @relation(fields: [historyOrderId], references: [id])
+  historyOrderId String?
+}
+
+model Image {
+  id       String @id @default(uuid())
+  imageUrl String
+  food     Food?  @relation(fields: [foodId], references: [id])
+  foodId   String @unique
+}
+
+
+enum Role {
+  USER
+  ADMIN
+}

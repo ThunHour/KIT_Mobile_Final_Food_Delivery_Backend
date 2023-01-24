@@ -1,6 +1,4 @@
-# SSH- Wad Final project
-
-
+# SSH- Food Delivery App
 
 ## Getting started - Development
 
@@ -10,7 +8,7 @@ Create .env file and copy this in
 PORT=3000
 ACCESS_TOKEN_SECRET='twcibNhzcHgrqWaGsBY5eA=='
 REFRESH_TOKEN_SECRET='aklsdjalskdjlahjwediouwhaodijasd=='
-DATABASE_URL="postgresql://wadfinal:123@localhost:5433/wadfinal?schema=public&sslmode=prefer"
+DATABASE_URL_PRISMA="postgresql://foodDelivery:123@localhost:5434/foodDelivery?schema=public&sslmode=prefer"
 
 ```
 
