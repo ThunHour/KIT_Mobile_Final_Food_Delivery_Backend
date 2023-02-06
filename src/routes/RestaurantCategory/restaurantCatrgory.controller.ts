@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { respone } from "./src/payload/respone/defaultRespone";
+import { respone } from "../../payload/respone/defaultRespone";
 async function createPartner(req: Request, res: Response, next: NextFunction) {
   try {
   } catch (error) {
