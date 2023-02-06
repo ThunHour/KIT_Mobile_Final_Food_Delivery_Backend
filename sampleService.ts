@@ -7,6 +7,7 @@ async function getBrandByIdService(id: string) {}
 async function deleteBrandService(id: string) {}
 async function getBrandByName(name: string) {}
 async function updateBrandService(id: string, name: string, imgUrl: string) {}
+
 export default {
   createBrandService,
   getAllBrandServie,
